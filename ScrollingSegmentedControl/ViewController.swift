@@ -1,10 +1,20 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var scrollingSegmentedControl: ScrollingSegmentedControl!
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     @IBOutlet weak var backgroundView: HitTestView!
     @IBOutlet weak var scrollView: HitTestScrollView!
     @IBOutlet weak var contentView: HitTestView!
     @IBOutlet weak var segmentView: HitTestView!
+    
+    @IBOutlet weak var stepperValueLabel: UILabel!
+    @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        self.scrollingSegmentedControl.segmentTitles = Array(repeating: "_", count: Int(sender.value))
+        stepperValueLabel.text = String(Int(sender.value))
+    }
     
     @IBAction func tapGestureRecognizerDidTap(_ sender: UITapGestureRecognizer) {
         print(#function)

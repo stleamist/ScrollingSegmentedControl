@@ -12,6 +12,7 @@
 		C708C6D1211C4A7100DC1403 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C708C6CF211C4A7100DC1403 /* Main.storyboard */; };
 		C708C6D3211C4A7100DC1403 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C708C6D2211C4A7100DC1403 /* Assets.xcassets */; };
 		C708C6D6211C4A7100DC1403 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C708C6D4211C4A7100DC1403 /* LaunchScreen.storyboard */; };
+		C7942DF4211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7942DF3211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		C708C6D2211C4A7100DC1403 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C708C6D5211C4A7100DC1403 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C708C6D7211C4A7100DC1403 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7942DF3211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingSegmentedControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				C708C6CB211C4A7100DC1403 /* AppDelegate.swift */,
 				C708C6CD211C4A7100DC1403 /* ViewController.swift */,
+				C7942DF3211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift */,
 				C708C6CF211C4A7100DC1403 /* Main.storyboard */,
 				C708C6D2211C4A7100DC1403 /* Assets.xcassets */,
 				C708C6D4211C4A7100DC1403 /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			files = (
 				C708C6CE211C4A7100DC1403 /* ViewController.swift in Sources */,
 				C708C6CC211C4A7100DC1403 /* AppDelegate.swift in Sources */,
+				C7942DF4211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
