@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,33 +11,32 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TwicketSegmentedControlDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ScrollingSegmentedControl" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="HitTestView" customModule="TwicketSegmentedControlDemo" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9wy-Tv-T82" userLabel="Background View" customClass="HitTestView" customModule="TwicketSegmentedControlDemo" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9wy-Tv-T82" userLabel="Background View" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="611" width="375" height="56"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HKd-EZ-sA7" customClass="HitTestScrollView" customModule="TwicketSegmentedControlDemo" customModuleProvider="target">
-                                        <rect key="frame" x="125" y="0.0" width="125" height="56"/>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HKd-EZ-sA7" customClass="HitTestScrollView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="56"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uT5-cJ-N6V" userLabel="Content View" customClass="HitTestView" customModule="TwicketSegmentedControlDemo" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uT5-cJ-N6V" userLabel="Content View" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZwP-xk-Y3S" userLabel="Segment" customClass="HitTestView" customModule="TwicketSegmentedControlDemo" customModuleProvider="target">
-                                                        <rect key="frame" x="125" y="0.0" width="125" height="56"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZwP-xk-Y3S" userLabel="Segment" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
+                                                        <rect key="frame" x="250" y="0.0" width="125" height="56"/>
                                                         <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstItem="ZwP-xk-Y3S" firstAttribute="centerX" secondItem="uT5-cJ-N6V" secondAttribute="centerX" id="aKz-pg-aJW"/>
-                                                    <constraint firstAttribute="height" constant="56" id="dyO-tF-TwR"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ZwP-xk-Y3S" secondAttribute="trailing" id="7U9-M3-ECz"/>
                                                     <constraint firstAttribute="bottom" secondItem="ZwP-xk-Y3S" secondAttribute="bottom" id="imM-ic-coP"/>
                                                     <constraint firstItem="ZwP-xk-Y3S" firstAttribute="top" secondItem="uT5-cJ-N6V" secondAttribute="top" id="xvP-VI-CPA"/>
                                                 </constraints>
@@ -51,7 +49,7 @@
                                             <constraint firstItem="uT5-cJ-N6V" firstAttribute="leading" secondItem="HKd-EZ-sA7" secondAttribute="leading" id="O6s-gR-421"/>
                                             <constraint firstAttribute="trailing" secondItem="uT5-cJ-N6V" secondAttribute="trailing" id="ROa-Jk-YwR"/>
                                             <constraint firstItem="uT5-cJ-N6V" firstAttribute="top" secondItem="HKd-EZ-sA7" secondAttribute="top" id="hir-TG-Hhp"/>
-                                            <constraint firstAttribute="height" constant="56" id="w6x-IU-9Fd"/>
+                                            <constraint firstItem="uT5-cJ-N6V" firstAttribute="height" secondItem="HKd-EZ-sA7" secondAttribute="height" id="ufx-0P-hQl"/>
                                         </constraints>
                                     </scrollView>
                                 </subviews>
@@ -59,8 +57,8 @@
                                 <constraints>
                                     <constraint firstItem="uT5-cJ-N6V" firstAttribute="width" secondItem="9wy-Tv-T82" secondAttribute="width" id="6XJ-QI-baP"/>
                                     <constraint firstAttribute="bottom" secondItem="HKd-EZ-sA7" secondAttribute="bottom" id="AUQ-Gl-GIq"/>
+                                    <constraint firstItem="HKd-EZ-sA7" firstAttribute="leading" secondItem="9wy-Tv-T82" secondAttribute="leading" id="BsP-dV-5KD"/>
                                     <constraint firstAttribute="height" constant="56" id="Hll-w3-A3i"/>
-                                    <constraint firstItem="HKd-EZ-sA7" firstAttribute="centerX" secondItem="9wy-Tv-T82" secondAttribute="centerX" id="r6U-dK-5vU"/>
                                     <constraint firstItem="HKd-EZ-sA7" firstAttribute="top" secondItem="9wy-Tv-T82" secondAttribute="top" id="uKJ-jF-OY8"/>
                                     <constraint firstItem="HKd-EZ-sA7" firstAttribute="width" secondItem="9wy-Tv-T82" secondAttribute="width" multiplier="1/3" id="ycU-2z-UQg"/>
                                 </constraints>

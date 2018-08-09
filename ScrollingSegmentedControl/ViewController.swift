@@ -76,25 +76,20 @@ class HitTestView: UIView, Nameable {
 }
 
 class HitTestScrollView: UIScrollView, Nameable {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return superview!.bounds.contains(self.convert(point, to: superview))
+    }
+    
     var name: String = ""
     /*
      override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-         let superHitTestView = super.hitTest(point, with: event)
-         var nameOfHitTestView = ""
-         if let hitTestView = superHitTestView as? NamedView {
-         nameOfHitTestView = hitTestView.name
-         }
-         print(#function, nameOfHitTestView)
-         return superHitTestView
+     let superHitTestView = super.hitTest(point, with: event)
+     var nameOfHitTestView = ""
+     if let hitTestView = superHitTestView as? NamedView {
+     nameOfHitTestView = hitTestView.name
      }
-    */
-    
-    
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        // 이 방법 말고 다른 방법 있음.
-        let hitTestEdgeInsets = UIEdgeInsets(top: 0, left: -125, bottom: 0, right: -125)
-        let hitFrame = self.bounds.inset(by: hitTestEdgeInsets) // UIEdgeInsetsInsetRect(self.bounds, hitTestEdgeInsets)
-        return hitFrame.contains(point)
-    }
-    
+     print(#function, nameOfHitTestView)
+     return superHitTestView
+     }
+     */
 }
