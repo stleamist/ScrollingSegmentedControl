@@ -16,58 +16,12 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9wy-Tv-T82" userLabel="Background View" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="611" width="375" height="56"/>
-                                <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HKd-EZ-sA7" customClass="HitTestScrollView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="125" height="56"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uT5-cJ-N6V" userLabel="Content View" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZwP-xk-Y3S" userLabel="Segment" customClass="HitTestView" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                                        <rect key="frame" x="250" y="0.0" width="125" height="56"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="ZwP-xk-Y3S" secondAttribute="trailing" id="7U9-M3-ECz"/>
-                                                    <constraint firstAttribute="bottom" secondItem="ZwP-xk-Y3S" secondAttribute="bottom" id="imM-ic-coP"/>
-                                                    <constraint firstItem="ZwP-xk-Y3S" firstAttribute="top" secondItem="uT5-cJ-N6V" secondAttribute="top" id="xvP-VI-CPA"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="uT5-cJ-N6V" secondAttribute="bottom" id="HNh-qI-oZq"/>
-                                            <constraint firstItem="ZwP-xk-Y3S" firstAttribute="width" secondItem="HKd-EZ-sA7" secondAttribute="width" id="JdK-ll-ww3"/>
-                                            <constraint firstItem="uT5-cJ-N6V" firstAttribute="leading" secondItem="HKd-EZ-sA7" secondAttribute="leading" id="O6s-gR-421"/>
-                                            <constraint firstAttribute="trailing" secondItem="uT5-cJ-N6V" secondAttribute="trailing" id="ROa-Jk-YwR"/>
-                                            <constraint firstItem="uT5-cJ-N6V" firstAttribute="top" secondItem="HKd-EZ-sA7" secondAttribute="top" id="hir-TG-Hhp"/>
-                                            <constraint firstItem="uT5-cJ-N6V" firstAttribute="height" secondItem="HKd-EZ-sA7" secondAttribute="height" id="ufx-0P-hQl"/>
-                                        </constraints>
-                                    </scrollView>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="uT5-cJ-N6V" firstAttribute="width" secondItem="9wy-Tv-T82" secondAttribute="width" id="6XJ-QI-baP"/>
-                                    <constraint firstAttribute="bottom" secondItem="HKd-EZ-sA7" secondAttribute="bottom" id="AUQ-Gl-GIq"/>
-                                    <constraint firstItem="HKd-EZ-sA7" firstAttribute="leading" secondItem="9wy-Tv-T82" secondAttribute="leading" id="BsP-dV-5KD"/>
-                                    <constraint firstAttribute="height" constant="56" id="Hll-w3-A3i"/>
-                                    <constraint firstItem="HKd-EZ-sA7" firstAttribute="top" secondItem="9wy-Tv-T82" secondAttribute="top" id="uKJ-jF-OY8"/>
-                                    <constraint firstItem="HKd-EZ-sA7" firstAttribute="width" secondItem="9wy-Tv-T82" secondAttribute="width" multiplier="1/3" id="ycU-2z-UQg"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="AhN-wf-S1z" appends="YES" id="PXq-pu-YeO"/>
-                                </connections>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx7-Yr-Bau" customClass="ScrollingSegmentedControl" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                <rect key="frame" x="16" y="20" width="343" height="56"/>
+                                <rect key="frame" x="16" y="36" width="343" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Bks-l5-ygJ"/>
                                 </constraints>
@@ -89,34 +43,18 @@
                                     </stepper>
                                 </subviews>
                             </stackView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2ud-S3-r3p">
-                                <rect key="frame" x="35" y="172" width="305" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
-                                </segments>
-                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="cx7-Yr-Bau" secondAttribute="trailing" constant="16" id="3bd-qS-RHQ"/>
-                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="3q8-SE-hdy"/>
-                            <constraint firstItem="9wy-Tv-T82" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="D43-To-zH6"/>
+                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="3VD-LV-8Hg"/>
                             <constraint firstItem="8YG-OW-Qiy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Kr4-bo-jfY"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="9wy-Tv-T82" secondAttribute="bottom" id="cXL-Ry-nyC"/>
-                            <constraint firstAttribute="trailing" secondItem="9wy-Tv-T82" secondAttribute="trailing" id="ucE-ma-xnp"/>
-                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="uyn-G2-1SU"/>
+                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="bq2-cL-35b"/>
+                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="dKc-j9-AMc"/>
                             <constraint firstItem="8YG-OW-Qiy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xW9-w9-Mpg"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="backgroundView" destination="9wy-Tv-T82" id="pnr-kK-OJE"/>
-                        <outlet property="contentView" destination="uT5-cJ-N6V" id="jxi-hn-hYt"/>
-                        <outlet property="scrollView" destination="HKd-EZ-sA7" id="gLB-hA-dD3"/>
                         <outlet property="scrollingSegmentedControl" destination="cx7-Yr-Bau" id="URx-2O-Fgd"/>
-                        <outlet property="segmentView" destination="ZwP-xk-Y3S" id="rUm-7f-FUS"/>
-                        <outlet property="segmentedControl" destination="2ud-S3-r3p" id="TBW-zj-NY0"/>
                         <outlet property="stepperValueLabel" destination="rsu-rT-ak6" id="p1f-BM-grp"/>
                     </connections>
                 </viewController>
