@@ -1,20 +1,100 @@
-//
-//  ViewController.swift
-//  ScrollingSegmentedControl
-//
-//  Created by 김동규 on 2018. 8. 9..
-//  Copyright © 2018년 Stleam. All rights reserved.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var backgroundView: HitTestView!
+    @IBOutlet weak var scrollView: HitTestScrollView!
+    @IBOutlet weak var contentView: HitTestView!
+    @IBOutlet weak var segmentView: HitTestView!
+    
+    @IBAction func tapGestureRecognizerDidTap(_ sender: UITapGestureRecognizer) {
+        print(#function)
+        
+        let location = sender.location(in: self.backgroundView)
+        let index = Int(location.x) / 125
+        let lastIndex = 3 - 1
+        
+        let offset = 125 * (lastIndex - index)
+        print(location, index, offset)
+        
+        self.scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
+        // let offset =
+        /*
+         0: 125 * 2
+         1: 125 * 1
+         2: 125 * 0
+         
+         0: 93 * 3
+         1: 93 * 2
+         2: 93 * 1
+         3: 93 * 0
+         */
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Functional
+        segmentView.addGestureRecognizer(scrollView.panGestureRecognizer)
+        scrollView.clipsToBounds = false
+        backgroundView.clipsToBounds = true
+        
+        
+        // Design
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        segmentView.layer.cornerRadius = 12
+        backgroundView.layer.cornerRadius = 12
+        
+        
+        // Debugging
+        (self.view as! HitTestView).name = "view"
+        backgroundView.name = "backgroundView"
+        scrollView.name = "scrollView"
+        contentView.name = "contentView"
+        segmentView.name = "segmentView"
     }
-
-
 }
 
+protocol Nameable {
+    var name: String { get set }
+}
+
+class HitTestView: UIView, Nameable {
+    var name: String = ""
+    /*
+     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+         let superHitTestView = super.hitTest(point, with: event)
+         var nameOfHitTestView = ""
+         if let hitTestView = superHitTestView as? NamedView {
+         nameOfHitTestView = hitTestView.name
+         }
+         print(#function, nameOfHitTestView)
+         return superHitTestView
+     }
+    */
+}
+
+class HitTestScrollView: UIScrollView, Nameable {
+    var name: String = ""
+    /*
+     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+         let superHitTestView = super.hitTest(point, with: event)
+         var nameOfHitTestView = ""
+         if let hitTestView = superHitTestView as? NamedView {
+         nameOfHitTestView = hitTestView.name
+         }
+         print(#function, nameOfHitTestView)
+         return superHitTestView
+     }
+    */
+    
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        // 이 방법 말고 다른 방법 있음.
+        let hitTestEdgeInsets = UIEdgeInsets(top: 0, left: -125, bottom: 0, right: -125)
+        let hitFrame = self.bounds.inset(by: hitTestEdgeInsets) // UIEdgeInsetsInsetRect(self.bounds, hitTestEdgeInsets)
+        return hitFrame.contains(point)
+    }
+    
+}
