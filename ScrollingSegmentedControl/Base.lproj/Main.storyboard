@@ -21,9 +21,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx7-Yr-Bau" customClass="ScrollingSegmentedControl" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                <rect key="frame" x="16" y="36" width="343" height="56"/>
+                                <rect key="frame" x="16" y="36" width="343" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="Bks-l5-ygJ"/>
+                                    <constraint firstAttribute="height" constant="44" id="Bks-l5-ygJ"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="8YG-OW-Qiy">
