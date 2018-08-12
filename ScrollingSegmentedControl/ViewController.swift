@@ -3,14 +3,28 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var scrollingSegmentedControl: ScrollingSegmentedControl!
     
+    @IBOutlet weak var selectedSegmentIndexLabel: UILabel!
     @IBOutlet weak var stepperValueLabel: UILabel!
+    
+    
+    
+    @IBAction func segmentValueChanged(_ sender: ScrollingSegmentedControl) {
+        selectedSegmentIndexLabel.text = String(sender.selectedSegmentIndex)
+        let foo = UISegmentedControl()
+    }
+    @IBAction func updateDidTap(_ sender: Any) {
+        self.scrollingSegmentedControl.updateScrollViewOffset(animated: false)
+    }
+    
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
-        self.scrollingSegmentedControl.segmentTitles = Array(repeating: "_", count: Int(sender.value))
+        let intArray = Array(0...Int(sender.value))
+        let stringArray = intArray.map({ String($0) })
+        self.scrollingSegmentedControl.segmentTitles = stringArray
         stepperValueLabel.text = String(Int(sender.value))
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 }

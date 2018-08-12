@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,40 +22,64 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx7-Yr-Bau" customClass="ScrollingSegmentedControl" customModule="ScrollingSegmentedControl" customModuleProvider="target">
-                                <rect key="frame" x="16" y="36" width="343" height="44"/>
+                                <rect key="frame" x="16" y="200.5" width="343" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Bks-l5-ygJ"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="segmentValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ONC-6V-fyc"/>
+                                </connections>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="8YG-OW-Qiy">
-                                <rect key="frame" x="140.5" y="294" width="94" height="79.5"/>
+                                <rect key="frame" x="0.0" y="375" width="375" height="139.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsu-rT-ak6">
-                                        <rect key="frame" x="41.5" y="0.0" width="11" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ewY-m6-QvB">
+                                        <rect key="frame" x="162" y="0.0" width="51.5" height="20.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQF-9Y-dpw">
+                                                <rect key="frame" x="0.0" y="0.0" width="10.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsu-rT-ak6">
+                                                <rect key="frame" x="40.5" y="0.0" width="11" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="4" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="kY5-dD-Fr5">
-                                        <rect key="frame" x="0.0" y="50.5" width="94" height="29"/>
+                                        <rect key="frame" x="140.5" y="50.5" width="94" height="29"/>
                                         <connections>
                                             <action selector="stepperValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="OlH-KG-H3q"/>
                                         </connections>
                                     </stepper>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MSS-qE-GlY">
+                                        <rect key="frame" x="162" y="109.5" width="51" height="30"/>
+                                        <state key="normal" title="Update"/>
+                                        <connections>
+                                            <action selector="updateDidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7mo-o6-mv2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="3VD-LV-8Hg"/>
-                            <constraint firstItem="8YG-OW-Qiy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Kr4-bo-jfY"/>
+                            <constraint firstItem="8YG-OW-Qiy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="4/3" id="Kr4-bo-jfY"/>
                             <constraint firstItem="cx7-Yr-Bau" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="bq2-cL-35b"/>
                             <constraint firstItem="cx7-Yr-Bau" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="dKc-j9-AMc"/>
+                            <constraint firstItem="8YG-OW-Qiy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="r6D-4B-Xbd"/>
                             <constraint firstItem="8YG-OW-Qiy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xW9-w9-Mpg"/>
+                            <constraint firstAttribute="trailing" secondItem="8YG-OW-Qiy" secondAttribute="trailing" id="z55-ua-WMB"/>
+                            <constraint firstItem="cx7-Yr-Bau" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="2/3" id="zbG-IG-swE"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="scrollingSegmentedControl" destination="cx7-Yr-Bau" id="URx-2O-Fgd"/>
+                        <outlet property="selectedSegmentIndexLabel" destination="JQF-9Y-dpw" id="Pt4-PR-IjN"/>
                         <outlet property="stepperValueLabel" destination="rsu-rT-ak6" id="p1f-BM-grp"/>
                     </connections>
                 </viewController>
