@@ -9,8 +9,7 @@ class ViewController: UIViewController {
     
     
     @IBAction func segmentValueChanged(_ sender: ScrollingSegmentedControl) {
-        selectedSegmentIndexLabel.text = String(sender.selectedSegmentIndex)
-        let foo = UISegmentedControl()
+        selectedSegmentIndexLabel.text = String(sender.selectedSegmentIndex!)
     }
     @IBAction func updateDidTap(_ sender: Any) {
         self.scrollingSegmentedControl.updateScrollViewOffset(animated: false)
