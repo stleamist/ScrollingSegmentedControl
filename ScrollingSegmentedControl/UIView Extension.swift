@@ -1,5 +1,11 @@
 import UIKit
 
+extension Collection where Indices.Iterator.Element == Index {
+    subscript (safe index: Index) -> Iterator.Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 extension UIView {
     func addConstraintsToFitIntoSuperview(attributes: [NSLayoutConstraint.Attribute] = [.top, .bottom, .leading, .trailing]) {
         guard let parent = self.superview else { return }
@@ -12,28 +18,6 @@ extension UIView {
         self.trailingAnchor.constraint(equalTo: parent.trailingAnchor).isActive = attributes.contains(.trailing)
     }
 }
-/*
-extension UIButton {
-    private func image(with color: UIColor) -> UIImage? {
-        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-        
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        
-        context?.setFillColor(color.cgColor)
-        context?.fill(rect)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return image
-    }
-    
-    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
-        self.setBackgroundImage(image(with: color), for: state)
-    }
-}
- */
 
 extension UIColor {
     open class var systemBlue: UIColor {

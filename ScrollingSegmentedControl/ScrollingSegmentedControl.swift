@@ -3,6 +3,7 @@ import UIKit
 // TODO: Optional 느낌표 최대한 줄이기
 
 @IBDesignable class ScrollingSegmentedControl: UIControl {
+    static let noSegment: Int = -1
 
     
     // MARK: View Properties
@@ -29,29 +30,70 @@ import UIKit
     
     // MARK: Stored Properties
     
-    var segmentTitles: [String] = ["First", "Second", "Third", "Fourth"] {
+    var segmentTitles: [String] = ["First", "Second"] {
         didSet {
+            validateSelectedSegmentIndex()
             updateScrollViewWidthAnchorMultiplier()
             updateSliderMaskViewFrame()
             setupSegmentButtons()
         }
     }
     
-    var segmentImages: [UIImage] = [] {
+    private var backgroundSegments: [SegmentButton] = [] {
         didSet {
-            
+            backgroundStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
+            backgroundSegments.forEach({ backgroundStackView.addArrangedSubview($0) })
+        }
+    }
+    private var foregroundSegments: [SegmentButton] = [] {
+        didSet {
+            foregroundStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
+            foregroundSegments.forEach({ foregroundStackView.addArrangedSubview($0) })
         }
     }
     
-    private var backgroundSegments: [SegmentButton] = []
-    private var foregroundSegments: [SegmentButton] = []
-    
-    var selectedSegmentIndex: Int? {
+    var selectedSegmentIndex: Int = ScrollingSegmentedControl.noSegment {
         didSet {
+            validateSelectedSegmentIndex() // didSet 내에서의 프로퍼티 변경은 didSet을 재호출하지 않는다.
+            
             if oldValue != selectedSegmentIndex {
                 sendActions(for: .valueChanged)
             }
+            
+            if (oldValue == ScrollingSegmentedControl.noSegment || selectedSegmentIndex == ScrollingSegmentedControl.noSegment) {
+                updateSliderViewHiddenState()
+                updateScrollViewOffset(animated: false)
+                
+                return
+            }
+            
             updateScrollViewOffset(animated: true)
+        }
+    }
+    
+    func updateSliderViewHiddenState() {
+        if selectedSegmentIndex == ScrollingSegmentedControl.noSegment {
+            self.scrollView.isHidden = true
+            self.foregroundStackContainerView.isHidden = true
+            
+            self.scrollView.alpha = 0
+            self.foregroundStackContainerView.alpha = 0
+        }
+        else {
+            UIView.animate(withDuration: sliderViewAppearAnimationDuration, delay: 0, options: .curveEaseOut, animations: {
+                self.scrollView.isHidden = false
+                self.foregroundStackContainerView.isHidden = false
+                
+                self.scrollView.alpha = 1
+                self.foregroundStackContainerView.alpha = 1
+            })
+        }
+    }
+    
+    func validateSelectedSegmentIndex() {
+        guard (0..<numberOfSegments).contains(selectedSegmentIndex) || selectedSegmentIndex == ScrollingSegmentedControl.noSegment else {
+            selectedSegmentIndex = ScrollingSegmentedControl.noSegment
+            return
         }
     }
     
@@ -79,7 +121,7 @@ import UIKit
     
     override var isHighlighted: Bool {
         didSet {
-            self.backgroundColor = self.backgroundColors[self.state.rawValue]
+            self.backgroundColor = self.backgroundColors[self.state]
         }
     }
     
@@ -89,9 +131,11 @@ import UIKit
     let controlBeginHighlightingAnimationDuration: TimeInterval = 0.25
     let controlEndHighlightingAnimationDuration: TimeInterval = 0.25
     
-    let backgroundSegmentBeginHighlightingAnimationDuration: TimeInterval = 0.10
-    let backgroundSegmentChangeHighlightingAnimationDuration: TimeInterval = 0.10
+    let backgroundSegmentBeginHighlightingAnimationDuration: TimeInterval = 0.1
+    let backgroundSegmentChangeHighlightingAnimationDuration: TimeInterval = 0.1
     let backgroundSegmentEndHighlightingAnimationDuration: TimeInterval = 0.25
+    
+    let sliderViewAppearAnimationDuration: TimeInterval = 0.25
     
     
     // MARK: Computed Properties
@@ -120,10 +164,9 @@ import UIKit
         setup()
     }
     
-    convenience init(titles: [String]?, images: [UIImage]?) {
+    convenience init(titles: [String]?) {
         self.init()
         self.segmentTitles = titles ?? []
-        self.segmentImages = images ?? []
     }
     
     
@@ -131,15 +174,14 @@ import UIKit
     
     private func setup() {
         setupSubviews()
-        
         setupScrollView()
         setupGestureRecognizers()
         setupStackViews()
         setupSliderView()
-        
-        setupAppearance()
-        
         setupSegmentButtons()
+        setupColors()
+        updateSliderViewHiddenState()
+        updateCornerRadius()
     }
     
     private func setupSubviews() {
@@ -221,77 +263,70 @@ import UIKit
     }
     
     private func setupSegmentButtons() {
-        for var segmentsTuple in [(buttons: backgroundSegments, stackView: backgroundStackView), (buttons: foregroundSegments, stackView: foregroundStackView)] {
-            
-            for button in segmentsTuple.buttons {
-                button.removeFromSuperview()
-            }
-            segmentsTuple.buttons.removeAll()
-            
-            for title in segmentTitles {
-                let button = SegmentButton()
-                
-                button.setTitle(title, for: .normal)
-                
-                switch segmentsTuple.buttons {
-                case backgroundSegments:
-                    button.setTitleColor(.black, for: .normal)
-                    button.setBackgroundColor(self.segmentColors[UIControl.State.highlighted.rawValue] ?? .clear, for: .highlighted)
-                case foregroundSegments:
-                    button.setTitleColor(.white, for: .normal)
-                default:
-                    ()
-                }
-                
-                button.clipsToBounds = true
-                button.layer.cornerRadius = self.segmentCornerRadius
-                
-                segmentsTuple.stackView.addArrangedSubview(button)
-                segmentsTuple.buttons.append(button)
-            }
-        }
+        // TODO: Don't Repeat Yourself
+        // TODO: cornerRadius 할당이 중복됨.
+        
+        foregroundSegments = segmentTitles.map({ title -> SegmentButton in
+            let button = SegmentButton()
+            button.setTitle(title, for: .normal)
+            button.setTitleColor(self.segmentTitleColors[.selected], for: .normal)
+            button.layer.cornerRadius = self.segmentCornerRadius
+            button.clipsToBounds = true
+            return button
+        })
+        
+        backgroundSegments = segmentTitles.map({ title -> SegmentButton in
+            let button = SegmentButton()
+            button.setTitle(title, for: .normal)
+            button.setTitleColor(self.segmentTitleColors[.normal], for: .normal)
+            button.setTitleColor(self.segmentTitleColors[.highlighted], for: .highlighted)
+            button.setBackgroundColor(self.segmentBackgroundColors[.highlighted], for: .highlighted)
+            button.layer.cornerRadius = self.segmentCornerRadius
+            button.clipsToBounds = true
+            return button
+        })
     }
     
-    private func setupAppearance() {
-        self.backgroundColor = self.backgroundColors[UIControl.State.normal.rawValue]
+    private func setupColors() {
+        self.backgroundColor = self.backgroundColors[.normal]
+        sliderView.backgroundColor = self.segmentBackgroundColors[.selected]
+        
         scrollView.backgroundColor = .clear
         scrollContentView.backgroundColor = .clear
+        backgroundStackView.backgroundColor = .clear
         foregroundStackContainerView.backgroundColor = .clear
-        sliderView.backgroundColor = self.segmentColors[UIControl.State.selected.rawValue]
-        
-        self.segmentCornerRadius = 22
     }
     
     
     // MARK: Appearance Properties & Methods
     
-    var segmentCornerRadius: CGFloat = 0 {
+    var segmentCornerRadius: CGFloat = 8 {
         didSet {
-            self.layer.cornerRadius = segmentCornerRadius
-            sliderView.layer.cornerRadius = segmentCornerRadius
-            sliderMaskView.layer.cornerRadius = segmentCornerRadius
-            backgroundSegments.forEach { $0.layer.cornerRadius = segmentCornerRadius }
-            foregroundSegments.forEach { $0.layer.cornerRadius = segmentCornerRadius }
+            updateCornerRadius()
         }
     }
     
-    private var backgroundColors: [UIControl.State.RawValue: UIColor] = [
-        UIControl.State.normal.rawValue: UIColor(rgb: 0xF1F2F2),
-        UIControl.State.highlighted.rawValue: UIColor(rgb: 0xD5D6D9)
+    private var backgroundColors: [UIControl.State: UIColor] = [
+        .normal: UIColor(rgb: 0xF1F2F2),
+        .highlighted: UIColor(rgb: 0xD5D6D9)
     ]
-    
-    private var segmentColors: [UIControl.State.RawValue: UIColor] = [
-        UIControl.State.normal.rawValue: .clear,
-        UIControl.State.highlighted.rawValue: UIColor(rgb: 0xD9EBFF), // UIColor.systemBlue.withAlphaComponent(0.15)
-        UIControl.State.selected.rawValue: .systemBlue
+    private var segmentBackgroundColors: [UIControl.State: UIColor] = [
+        .normal: .clear,
+        .highlighted: UIColor(rgb: 0xD9EBFF), // UIColor.systemBlue.withAlphaComponent(0.15)
+        .selected: .systemBlue
+    ]
+    private var segmentTitleColors: [UIControl.State: UIColor] = [
+        .normal: .black,
+        .highlighted: .black,
+        .selected: .white
     ]
     
     func setBackgroundColor(_ color: UIColor?, for state: UIControl.State) {
-        backgroundColors[state.rawValue] = color
+        backgroundColors[state] = color
     }
     
     func setSegmentColor(_ color: UIColor?, for state: UIControl.State) {
-        segmentColors[state.rawValue] = color
+        segmentBackgroundColors[state] = color
     }
     
     
@@ -301,19 +336,27 @@ import UIKit
         super.layoutSubviews()
         
         backgroundStackView.layoutSubviews()
-        self.updateScrollViewOffset(animated: false)
+        updateScrollViewOffset(animated: false)
+    }
+    
+    func updateCornerRadius() {
+        self.layer.cornerRadius = segmentCornerRadius
+        sliderView.layer.cornerRadius = segmentCornerRadius
+        sliderMaskView.layer.cornerRadius = segmentCornerRadius
+        backgroundSegments.forEach { $0.layer.cornerRadius = segmentCornerRadius }
+        foregroundSegments.forEach { $0.layer.cornerRadius = segmentCornerRadius }
     }
     
     func updateScrollViewOffset(animated: Bool) {
         // FIXME: selectedSegmentIndex > numberOfSegments - 1 일 때 오류 발생
-        guard let index = self.selectedSegmentIndex, let lastSegment = backgroundSegments.last else {
+        guard let lastSegment = backgroundSegments.last, let selectedSegment = backgroundSegments[safe: self.selectedSegmentIndex] else {
+            // numberOfSegments = 0 or selectedSegmentIndex = -1
             return
         }
-        let selectedSegment = backgroundSegments[index]
         
         // scrollView.bounds.width * numberOfSegments가 항상 scrollView.contentSize.width와 일치하지 않기 때문에 이 방법이 정확하다.
         let scrollViewOffsetX = selectedSegment.convert(selectedSegment.bounds.origin, from: lastSegment).x
-        self.scrollView.setContentOffset(CGPoint(x: scrollViewOffsetX, y: 0), animated: animated)
+        scrollView.setContentOffset(CGPoint(x: scrollViewOffsetX, y: 0), animated: animated)
     }
     
     private func updateScrollViewWidthAnchorMultiplier() {
@@ -323,6 +366,9 @@ import UIKit
         self.scrollViewWidthAnchor = scrollView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: self.scrollViewWidthMultiplier)
         self.scrollViewWidthAnchor?.isActive = true
     }
+    
+    
+    // MARK: Helper Methods
     
     func setHighlightedState(of control: UIControl, to isHighlighted: Bool, animationDuration duration: TimeInterval = 0) {
         let handler = {
@@ -367,7 +413,7 @@ extension ScrollingSegmentedControl: UIGestureRecognizerDelegate {
             
         case .ended, .cancelled:
             self.highlightedSegmentIndex = nil
-            self.selectedSegmentIndex = currentIndex
+            self.selectedSegmentIndex = currentIndex ?? ScrollingSegmentedControl.noSegment
             
         default:
             ()
@@ -431,16 +477,16 @@ extension ScrollingSegmentedControl: UIScrollViewDelegate, SliderViewSizeDelegat
 }
 
 class SegmentButton: UIButton {
-    private var backgroundColors: [UIControl.State.RawValue: UIColor] = [:]
+    private var backgroundColors: [UIControl.State: UIColor] = [:]
     
     override var isHighlighted: Bool {
         didSet {
-            self.backgroundColor = self.backgroundColors[self.state.rawValue]
+            self.backgroundColor = self.backgroundColors[self.state]
         }
     }
     
     func setBackgroundColor(_ color: UIColor?, for state: UIControl.State) {
-        self.backgroundColors[state.rawValue] = color
+        self.backgroundColors[state] = color
     }
 }
 
@@ -461,7 +507,6 @@ class SliderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         sizeDelegate?.sliderViewSizeDidChange(sliderView: self)
     }
 }
@@ -476,3 +521,9 @@ protocol SliderViewSizeDelegate {
 class StackContainerView: UIView {}
 class ContentView: UIView {}
 class SliderMaskView: UIView {}
+
+extension UIControl.State: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
+}

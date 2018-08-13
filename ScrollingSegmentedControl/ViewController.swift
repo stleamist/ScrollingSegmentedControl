@@ -9,14 +9,14 @@ class ViewController: UIViewController {
     
     
     @IBAction func segmentValueChanged(_ sender: ScrollingSegmentedControl) {
-        selectedSegmentIndexLabel.text = String(sender.selectedSegmentIndex!)
+        selectedSegmentIndexLabel.text = String(sender.selectedSegmentIndex)
     }
     @IBAction func updateDidTap(_ sender: Any) {
-        self.scrollingSegmentedControl.updateScrollViewOffset(animated: false)
+        scrollingSegmentedControl.updateSliderViewHiddenState()
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
-        let intArray = Array(0...Int(sender.value))
+        let intArray = Array(0..<Int(sender.value))
         let stringArray = intArray.map({ String($0) })
         self.scrollingSegmentedControl.segmentTitles = stringArray
         stepperValueLabel.text = String(Int(sender.value))
@@ -25,5 +25,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        selectedSegmentIndexLabel.text = String(scrollingSegmentedControl.selectedSegmentIndex)
     }
 }
+
+
