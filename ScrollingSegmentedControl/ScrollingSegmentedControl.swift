@@ -1,25 +1,26 @@
 import UIKit
 
-// TODO: Optional 느낌표 최대한 줄이기
+extension ScrollingSegmentedControl {
+    static let noSegment: Int = -1
+}
 
 @IBDesignable class ScrollingSegmentedControl: UIControl {
-    static let noSegment: Int = -1
-
+    
     
     // MARK: View Properties
     
     var scrollView: SliderScrollView = SliderScrollView()
-    var scrollContentView: UIView = ContentView()
+    var scrollContentView: UIView = UIView()
     var sliderView: SliderView = SliderView()
-    var sliderMaskView: UIView = SliderMaskView()
-    
-    var foregroundStackContainerView: UIView = StackContainerView()
+    var sliderMaskView: UIView = UIView()
     
     var backgroundStackView: UIStackView = UIStackView()
     var foregroundStackView: UIStackView = UIStackView()
     
+    var foregroundStackContainerView: UIView = UIView()
     
-    // MARK: UIKit Properties
+    
+    // MARK: Gesture Recognizers
     
     // TODO: gestureRecognizer를 각각의 클래스 인스턴스 내부에 할당해야 할지 결정하기
     private var backgroundSegmentsLongPressGestureRecognizer: UILongPressGestureRecognizer!
@@ -59,41 +60,13 @@ import UIKit
             if oldValue != selectedSegmentIndex {
                 sendActions(for: .valueChanged)
             }
-            
             if (oldValue == ScrollingSegmentedControl.noSegment || selectedSegmentIndex == ScrollingSegmentedControl.noSegment) {
                 updateSliderViewHiddenState()
                 updateScrollViewOffset(animated: false)
-                
                 return
             }
             
             updateScrollViewOffset(animated: true)
-        }
-    }
-    
-    func updateSliderViewHiddenState() {
-        if selectedSegmentIndex == ScrollingSegmentedControl.noSegment {
-            self.scrollView.isHidden = true
-            self.foregroundStackContainerView.isHidden = true
-            
-            self.scrollView.alpha = 0
-            self.foregroundStackContainerView.alpha = 0
-        }
-        else {
-            UIView.animate(withDuration: sliderViewAppearAnimationDuration, delay: 0, options: .curveEaseOut, animations: {
-                self.scrollView.isHidden = false
-                self.foregroundStackContainerView.isHidden = false
-                
-                self.scrollView.alpha = 1
-                self.foregroundStackContainerView.alpha = 1
-            })
-        }
-    }
-    
-    func validateSelectedSegmentIndex() {
-        guard (0..<numberOfSegments).contains(selectedSegmentIndex) || selectedSegmentIndex == ScrollingSegmentedControl.noSegment else {
-            selectedSegmentIndex = ScrollingSegmentedControl.noSegment
-            return
         }
     }
     
@@ -102,7 +75,7 @@ import UIKit
             if oldValue == nil, let newIndex = highlightedSegmentIndex { // began
                 let newSegment = backgroundSegments[newIndex]
                 
-                setHighlightedState(of: newSegment, to: true, animationDuration: self.backgroundSegmentBeginHighlightingAnimationDuration)
+                setHighlightedState(of: newSegment, to: true, animationDuration: backgroundSegmentBeginHighlightingAnimationDuration)
             }
             else if let oldIndex = oldValue, let newIndex = highlightedSegmentIndex, oldIndex != newIndex { // changed
                 let oldSegment = backgroundSegments[oldIndex]
@@ -126,18 +99,6 @@ import UIKit
     }
     
     
-    // MARK: Duration Constants
-    
-    let controlBeginHighlightingAnimationDuration: TimeInterval = 0.25
-    let controlEndHighlightingAnimationDuration: TimeInterval = 0.25
-    
-    let backgroundSegmentBeginHighlightingAnimationDuration: TimeInterval = 0.1
-    let backgroundSegmentChangeHighlightingAnimationDuration: TimeInterval = 0.1
-    let backgroundSegmentEndHighlightingAnimationDuration: TimeInterval = 0.25
-    
-    let sliderViewAppearAnimationDuration: TimeInterval = 0.25
-    
-    
     // MARK: Computed Properties
     
     var numberOfSegments: Int {
@@ -150,6 +111,50 @@ import UIKit
         }
         return (1 / CGFloat(numberOfSegments))
     }
+    
+    
+    // MARK: Appearance Properties & Methods
+    
+    private var backgroundColors: [UIControl.State: UIColor] = [
+        .normal: UIColor(rgb: 0xF1F2F2),
+        .highlighted: UIColor(rgb: 0xD5D6D9)
+    ]
+    private var segmentBackgroundColors: [UIControl.State: UIColor] = [
+        .normal: .clear,
+        .highlighted: UIColor(rgb: 0xD9EBFF), // UIColor.systemBlue.withAlphaComponent(0.15)
+        .selected: .systemBlue
+    ]
+    private var segmentTitleColors: [UIControl.State: UIColor] = [
+        .normal: .black,
+        .highlighted: .black,
+        .selected: .white
+    ]
+    
+    func setBackgroundColor(_ color: UIColor?, for state: UIControl.State) {
+        backgroundColors[state] = color
+    }
+    
+    func setSegmentColor(_ color: UIColor?, for state: UIControl.State) {
+        segmentBackgroundColors[state] = color
+    }
+    
+    var segmentCornerRadius: CGFloat = 8 {
+        didSet {
+            updateCornerRadius()
+        }
+    }
+    
+    
+    // MARK: Duration Constants
+    
+    let controlBeginHighlightingAnimationDuration: TimeInterval = 0.25
+    let controlEndHighlightingAnimationDuration: TimeInterval = 0.25
+    
+    let backgroundSegmentBeginHighlightingAnimationDuration: TimeInterval = 0.1
+    let backgroundSegmentChangeHighlightingAnimationDuration: TimeInterval = 0.1
+    let backgroundSegmentEndHighlightingAnimationDuration: TimeInterval = 0.25
+    
+    let sliderViewAppearAnimationDuration: TimeInterval = 0.25
     
     
     // MARK: Initializations
@@ -174,17 +179,20 @@ import UIKit
     
     private func setup() {
         setupSubviews()
-        setupScrollView()
-        setupGestureRecognizers()
         setupStackViews()
-        setupSliderView()
         setupSegmentButtons()
-        setupColors()
-        updateSliderViewHiddenState()
+        setupScrollView()
+        setupSliderView()
+        setupGestureRecognizers()
+        
+        setColors()
         updateCornerRadius()
+        
+        updateSliderViewHiddenState()
     }
     
     private func setupSubviews() {
+        
         
         // Add Subviews
         
@@ -217,32 +225,6 @@ import UIKit
         foregroundStackView.addConstraintsToFitIntoSuperview()
     }
     
-    private func setupScrollView() {
-        scrollView.isPagingEnabled = true
-        
-        self.clipsToBounds = true
-        scrollView.clipsToBounds = false
-        
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        
-        scrollView.delegate = self
-        scrollView.scrollingSegmentedControl = self
-        sliderView.addGestureRecognizer(scrollView.panGestureRecognizer)
-    }
-    
-    private func setupGestureRecognizers() {
-        self.backgroundSegmentsLongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleBackgroundSegmentsLongPress(_:)))
-        backgroundSegmentsLongPressGestureRecognizer.minimumPressDuration = 0
-        backgroundSegmentsLongPressGestureRecognizer.delegate = self
-        self.addGestureRecognizer(self.backgroundSegmentsLongPressGestureRecognizer)
-        
-        sliderView.longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleSliderViewLongPress(_:)))
-        sliderView.longPressGestureRecognizer.minimumPressDuration = 0
-        sliderView.longPressGestureRecognizer.delegate = self
-        sliderView.addGestureRecognizer(sliderView.longPressGestureRecognizer)
-    }
-    
     private func setupStackViews() {
         for stackView in [backgroundStackView, foregroundStackView] {
             stackView.axis = .horizontal
@@ -253,13 +235,6 @@ import UIKit
         for view in [backgroundStackView, foregroundStackContainerView] {
             view.isUserInteractionEnabled = false
         }
-    }
-    
-    private func setupSliderView() {
-        sliderView.sizeDelegate = self
-        
-        sliderMaskView.backgroundColor = .black
-        foregroundStackContainerView.layer.mask = sliderMaskView.layer
     }
     
     private func setupSegmentButtons() {
@@ -287,7 +262,40 @@ import UIKit
         })
     }
     
-    private func setupColors() {
+    private func setupScrollView() {
+        scrollView.isPagingEnabled = true
+        
+        self.clipsToBounds = true
+        scrollView.clipsToBounds = false
+        
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        scrollView.delegate = self
+        scrollView.scrollingSegmentedControl = self
+        sliderView.addGestureRecognizer(scrollView.panGestureRecognizer)
+    }
+    
+    private func setupSliderView() {
+        sliderView.sizeDelegate = self
+        
+        sliderMaskView.backgroundColor = .black
+        foregroundStackContainerView.layer.mask = sliderMaskView.layer
+    }
+    
+    private func setupGestureRecognizers() {
+        self.backgroundSegmentsLongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleBackgroundSegmentsLongPress(_:)))
+        backgroundSegmentsLongPressGestureRecognizer.minimumPressDuration = 0
+        backgroundSegmentsLongPressGestureRecognizer.delegate = self
+        self.addGestureRecognizer(self.backgroundSegmentsLongPressGestureRecognizer)
+        
+        sliderView.longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleSliderViewLongPress(_:)))
+        sliderView.longPressGestureRecognizer.minimumPressDuration = 0
+        sliderView.longPressGestureRecognizer.delegate = self
+        sliderView.addGestureRecognizer(sliderView.longPressGestureRecognizer)
+    }
+    
+    private func setColors() {
         self.backgroundColor = self.backgroundColors[.normal]
         sliderView.backgroundColor = self.segmentBackgroundColors[.selected]
         
@@ -295,38 +303,6 @@ import UIKit
         scrollContentView.backgroundColor = .clear
         backgroundStackView.backgroundColor = .clear
         foregroundStackContainerView.backgroundColor = .clear
-    }
-    
-    
-    // MARK: Appearance Properties & Methods
-    
-    var segmentCornerRadius: CGFloat = 8 {
-        didSet {
-            updateCornerRadius()
-        }
-    }
-    
-    private var backgroundColors: [UIControl.State: UIColor] = [
-        .normal: UIColor(rgb: 0xF1F2F2),
-        .highlighted: UIColor(rgb: 0xD5D6D9)
-    ]
-    private var segmentBackgroundColors: [UIControl.State: UIColor] = [
-        .normal: .clear,
-        .highlighted: UIColor(rgb: 0xD9EBFF), // UIColor.systemBlue.withAlphaComponent(0.15)
-        .selected: .systemBlue
-    ]
-    private var segmentTitleColors: [UIControl.State: UIColor] = [
-        .normal: .black,
-        .highlighted: .black,
-        .selected: .white
-    ]
-    
-    func setBackgroundColor(_ color: UIColor?, for state: UIControl.State) {
-        backgroundColors[state] = color
-    }
-    
-    func setSegmentColor(_ color: UIColor?, for state: UIControl.State) {
-        segmentBackgroundColors[state] = color
     }
     
     
@@ -367,8 +343,34 @@ import UIKit
         self.scrollViewWidthAnchor?.isActive = true
     }
     
+    func updateSliderViewHiddenState() {
+        if selectedSegmentIndex == ScrollingSegmentedControl.noSegment {
+            self.scrollView.isHidden = true
+            self.foregroundStackContainerView.isHidden = true
+            
+            self.scrollView.alpha = 0
+            self.foregroundStackContainerView.alpha = 0
+        }
+        else {
+            UIView.animate(withDuration: sliderViewAppearAnimationDuration, delay: 0, options: .curveEaseOut, animations: {
+                self.scrollView.isHidden = false
+                self.foregroundStackContainerView.isHidden = false
+                
+                self.scrollView.alpha = 1
+                self.foregroundStackContainerView.alpha = 1
+            })
+        }
+    }
+    
     
     // MARK: Helper Methods
+    
+    func validateSelectedSegmentIndex() {
+        guard (0..<numberOfSegments).contains(selectedSegmentIndex) || selectedSegmentIndex == ScrollingSegmentedControl.noSegment else {
+            selectedSegmentIndex = ScrollingSegmentedControl.noSegment
+            return
+        }
+    }
     
     func setHighlightedState(of control: UIControl, to isHighlighted: Bool, animationDuration duration: TimeInterval = 0) {
         let handler = {
@@ -516,11 +518,52 @@ protocol SliderViewSizeDelegate {
 }
 
 
-// MARK: Custom Classes for Debugging
+// MARK: Extensions
 
-class StackContainerView: UIView {}
-class ContentView: UIView {}
-class SliderMaskView: UIView {}
+extension Collection where Indices.Iterator.Element == Index {
+    subscript (safe index: Index) -> Iterator.Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
+extension UIView {
+    func addConstraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) {
+        guard let parent = self.superview else { return }
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.topAnchor.constraint(equalTo: parent.topAnchor).isActive = attributes.contains(.top)
+        self.bottomAnchor.constraint(equalTo: parent.bottomAnchor).isActive = attributes.contains(.bottom)
+        self.leadingAnchor.constraint(equalTo: parent.leadingAnchor).isActive = attributes.contains(.leading)
+        self.trailingAnchor.constraint(equalTo: parent.trailingAnchor).isActive = attributes.contains(.trailing)
+    }
+}
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int, alpha: CGFloat = 1) {
+        self.init(
+            red: CGFloat(red) / 255,
+            green: CGFloat(green) / 255,
+            blue: CGFloat(blue) / 255,
+            alpha: alpha
+        )
+    }
+    
+    convenience init(rgb: Int, alpha: CGFloat = 1) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF,
+            alpha: alpha
+        )
+    }
+}
+
+extension UIColor {
+    open class var systemBlue: UIColor {
+        return UIView().tintColor
+    }
+}
 
 extension UIControl.State: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -12,7 +12,7 @@ class ViewController: UIViewController {
         selectedSegmentIndexLabel.text = String(sender.selectedSegmentIndex)
     }
     @IBAction func updateDidTap(_ sender: Any) {
-        scrollingSegmentedControl.updateSliderViewHiddenState()
+        ()
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
