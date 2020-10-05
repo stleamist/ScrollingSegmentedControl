@@ -1,4 +1,5 @@
 import UIKit
+import ScrollingSegmentedControl
 
 class ViewController: UIViewController {
     @IBOutlet weak var scrollingSegmentedControl: ScrollingSegmentedControl!

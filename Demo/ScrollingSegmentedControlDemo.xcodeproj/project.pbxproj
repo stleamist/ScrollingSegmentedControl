@@ -12,7 +12,7 @@
 		C708C6D1211C4A7100DC1403 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C708C6CF211C4A7100DC1403 /* Main.storyboard */; };
 		C708C6D3211C4A7100DC1403 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C708C6D2211C4A7100DC1403 /* Assets.xcassets */; };
 		C708C6D6211C4A7100DC1403 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C708C6D4211C4A7100DC1403 /* LaunchScreen.storyboard */; };
-		C7942DF4211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7942DF3211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift */; };
+		C778F43C2868838D002139EC /* ScrollingSegmentedControl in Frameworks */ = {isa = PBXBuildFile; productRef = C778F43B2868838D002139EC /* ScrollingSegmentedControl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,6 @@
 		C708C6D2211C4A7100DC1403 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C708C6D5211C4A7100DC1403 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C708C6D7211C4A7100DC1403 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C7942DF3211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingSegmentedControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C778F43C2868838D002139EC /* ScrollingSegmentedControl in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +42,7 @@
 			children = (
 				C708C6CA211C4A7100DC1403 /* ScrollingSegmentedControlDemo */,
 				C708C6C9211C4A7100DC1403 /* Products */,
+				C778F43A2868838D002139EC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +59,19 @@
 			children = (
 				C708C6CB211C4A7100DC1403 /* AppDelegate.swift */,
 				C708C6CD211C4A7100DC1403 /* ViewController.swift */,
-				C7942DF3211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift */,
 				C708C6CF211C4A7100DC1403 /* Main.storyboard */,
 				C708C6D2211C4A7100DC1403 /* Assets.xcassets */,
 				C708C6D4211C4A7100DC1403 /* LaunchScreen.storyboard */,
 				C708C6D7211C4A7100DC1403 /* Info.plist */,
 			);
 			path = ScrollingSegmentedControlDemo;
+			sourceTree = "<group>";
+		};
+		C778F43A2868838D002139EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +90,9 @@
 			dependencies = (
 			);
 			name = ScrollingSegmentedControlDemo;
+			packageProductDependencies = (
+				C778F43B2868838D002139EC /* ScrollingSegmentedControl */,
+			);
 			productName = ScrollingSegmentedControl;
 			productReference = C708C6C8211C4A7100DC1403 /* ScrollingSegmentedControlDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -140,7 +150,6 @@
 			files = (
 				C708C6CE211C4A7100DC1403 /* ViewController.swift in Sources */,
 				C708C6CC211C4A7100DC1403 /* AppDelegate.swift in Sources */,
-				C7942DF4211C5B1E00D30AF2 /* ScrollingSegmentedControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +351,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C778F43B2868838D002139EC /* ScrollingSegmentedControl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ScrollingSegmentedControl;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C708C6C0211C4A7100DC1403 /* Project object */;
 }

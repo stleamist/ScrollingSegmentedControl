@@ -1,23 +1,23 @@
 import UIKit
 
 extension ScrollingSegmentedControl {
-    static let noSegment: Int = -1
+    static public let noSegment: Int = -1
 }
 
-@IBDesignable class ScrollingSegmentedControl: UIControl {
+@IBDesignable public class ScrollingSegmentedControl: UIControl {
     
     
     // MARK: View Properties
     
-    var scrollView: SliderScrollView = SliderScrollView()
-    var scrollContentView: UIView = UIView()
-    var sliderView: SliderView = SliderView()
-    var sliderMaskView: UIView = UIView()
-    
-    var backgroundStackView: UIStackView = UIStackView()
-    var foregroundStackView: UIStackView = UIStackView()
-    
-    var foregroundStackContainerView: UIView = UIView()
+    private var scrollView: SliderScrollView = SliderScrollView()
+    private var scrollContentView: UIView = UIView()
+    private var sliderView: SliderView = SliderView()
+    private var sliderMaskView: UIView = UIView()
+
+    private var backgroundStackView: UIStackView = UIStackView()
+    private var foregroundStackView: UIStackView = UIStackView()
+
+    private var foregroundStackContainerView: UIView = UIView()
     
     
     // MARK: Gesture Recognizers
@@ -31,7 +31,7 @@ extension ScrollingSegmentedControl {
     
     // MARK: Stored Properties
     
-    var segmentTitles: [String] = ["First", "Second"] {
+    public var segmentTitles: [String] = ["First", "Second"] {
         didSet {
             validateSelectedSegmentIndex()
             updateScrollViewWidthAnchorMultiplier()
@@ -53,7 +53,7 @@ extension ScrollingSegmentedControl {
         }
     }
     
-    var selectedSegmentIndex: Int = ScrollingSegmentedControl.noSegment {
+    public var selectedSegmentIndex: Int = ScrollingSegmentedControl.noSegment {
         didSet {
             validateSelectedSegmentIndex() // didSet 내에서의 프로퍼티 변경은 didSet을 재호출하지 않는다.
             
@@ -70,7 +70,7 @@ extension ScrollingSegmentedControl {
         }
     }
     
-    var highlightedSegmentIndex: Int? {
+    public var highlightedSegmentIndex: Int? {
         didSet {
             if oldValue == nil, let newIndex = highlightedSegmentIndex { // began
                 let newSegment = backgroundSegments[newIndex]
@@ -92,7 +92,7 @@ extension ScrollingSegmentedControl {
         }
     }
     
-    override var isHighlighted: Bool {
+    override public var isHighlighted: Bool {
         didSet {
             self.backgroundColor = self.backgroundColors[self.state]
         }
@@ -101,7 +101,7 @@ extension ScrollingSegmentedControl {
     
     // MARK: Computed Properties
     
-    var numberOfSegments: Int {
+    public var numberOfSegments: Int {
         return segmentTitles.count
     }
     
@@ -130,15 +130,15 @@ extension ScrollingSegmentedControl {
         .selected: .white
     ]
     
-    func setBackgroundColor(_ color: UIColor?, for state: UIControl.State) {
+    public func setBackgroundColor(_ color: UIColor?, for state: UIControl.State) {
         backgroundColors[state] = color
     }
     
-    func setSegmentColor(_ color: UIColor?, for state: UIControl.State) {
+    public func setSegmentColor(_ color: UIColor?, for state: UIControl.State) {
         segmentBackgroundColors[state] = color
     }
     
-    @IBInspectable var cornerRadius: CGFloat = 8 {
+    @IBInspectable public var cornerRadius: CGFloat = 8 {
         didSet {
             updateCornerRadius()
         }
@@ -147,14 +147,14 @@ extension ScrollingSegmentedControl {
     
     // MARK: Duration Constants
     
-    let controlBeginHighlightingAnimationDuration: TimeInterval = 0.25
-    let controlEndHighlightingAnimationDuration: TimeInterval = 0.25
+    private let controlBeginHighlightingAnimationDuration: TimeInterval = 0.25
+    private let controlEndHighlightingAnimationDuration: TimeInterval = 0.25
     
-    let backgroundSegmentBeginHighlightingAnimationDuration: TimeInterval = 0.1
-    let backgroundSegmentChangeHighlightingAnimationDuration: TimeInterval = 0.1
-    let backgroundSegmentEndHighlightingAnimationDuration: TimeInterval = 0.25
+    private let backgroundSegmentBeginHighlightingAnimationDuration: TimeInterval = 0.1
+    private let backgroundSegmentChangeHighlightingAnimationDuration: TimeInterval = 0.1
+    private let backgroundSegmentEndHighlightingAnimationDuration: TimeInterval = 0.25
     
-    let sliderViewAppearAnimationDuration: TimeInterval = 0.25
+    private let sliderViewAppearAnimationDuration: TimeInterval = 0.25
     
     
     // MARK: Initializations
@@ -169,7 +169,7 @@ extension ScrollingSegmentedControl {
         setup()
     }
     
-    convenience init(titles: [String]?) {
+    convenience public init(titles: [String]?) {
         self.init()
         self.segmentTitles = titles ?? []
     }
@@ -307,14 +307,14 @@ extension ScrollingSegmentedControl {
     
     // MARK: Update Methods
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         backgroundStackView.layoutSubviews()
         updateScrollViewOffset(animated: false)
     }
     
-    func updateCornerRadius() {
+    private func updateCornerRadius() {
         self.layer.cornerRadius = cornerRadius
         sliderView.layer.cornerRadius = cornerRadius
         sliderMaskView.layer.cornerRadius = cornerRadius
@@ -322,7 +322,7 @@ extension ScrollingSegmentedControl {
         foregroundSegments.forEach { $0.layer.cornerRadius = cornerRadius }
     }
     
-    func updateScrollViewOffset(animated: Bool) {
+    private func updateScrollViewOffset(animated: Bool) {
         guard let lastSegment = backgroundSegments.last, let selectedSegment = backgroundSegments[safe: self.selectedSegmentIndex] else {
             // numberOfSegments = 0 or selectedSegmentIndex = -1
             return
@@ -341,7 +341,7 @@ extension ScrollingSegmentedControl {
         self.scrollViewWidthAnchor?.isActive = true
     }
     
-    func updateSliderViewHiddenState() {
+    private func updateSliderViewHiddenState() {
         if selectedSegmentIndex == ScrollingSegmentedControl.noSegment {
             self.scrollView.isHidden = true
             self.foregroundStackContainerView.isHidden = true
@@ -370,7 +370,7 @@ extension ScrollingSegmentedControl {
         }
     }
     
-    func setHighlightedState(of control: UIControl, to isHighlighted: Bool, animationDuration duration: TimeInterval = 0) {
+    private func setHighlightedState(of control: UIControl, to isHighlighted: Bool, animationDuration duration: TimeInterval = 0) {
         let handler = {
             control.isHighlighted = isHighlighted
         }
@@ -420,7 +420,7 @@ extension ScrollingSegmentedControl: UIGestureRecognizerDelegate {
         }
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         let recognizers: Set = [gestureRecognizer, otherGestureRecognizer]
         if recognizers.contains(sliderView.longPressGestureRecognizer) && recognizers.contains(scrollView.panGestureRecognizer) {
             return true
@@ -428,7 +428,7 @@ extension ScrollingSegmentedControl: UIGestureRecognizerDelegate {
         return false
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.backgroundSegmentsLongPressGestureRecognizer && otherGestureRecognizer == scrollView.panGestureRecognizer {
             return true
         }
@@ -441,24 +441,24 @@ extension ScrollingSegmentedControl: UIScrollViewDelegate, SliderViewSizeDelegat
     
     // MARK: ScrollView Delegate Methods
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate == false {
             setSelectedSegmentIndexByScrollViewOffset()
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         setSelectedSegmentIndexByScrollViewOffset()
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateSliderMaskViewFrame()
     }
     
     
     // MARK: SliderViewSizeDelegate Methods
     
-    func sliderViewSizeDidChange(sliderView: UIView) {
+    internal func sliderViewSizeDidChange(sliderView: UIView) {
         updateSliderMaskViewFrame()
     }
     
@@ -476,7 +476,7 @@ extension ScrollingSegmentedControl: UIScrollViewDelegate, SliderViewSizeDelegat
     }
 }
 
-class SegmentButton: UIButton {
+internal class SegmentButton: UIButton {
     private var backgroundColors: [UIControl.State: UIColor] = [:]
     
     override var isHighlighted: Bool {
@@ -490,7 +490,7 @@ class SegmentButton: UIButton {
     }
 }
 
-class SliderScrollView: UIScrollView {
+internal class SliderScrollView: UIScrollView {
     var scrollingSegmentedControl: ScrollingSegmentedControl?
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -501,7 +501,7 @@ class SliderScrollView: UIScrollView {
     }
 }
 
-class SliderView: UIView {
+internal class SliderView: UIView {
     var sizeDelegate: SliderViewSizeDelegate?
     var longPressGestureRecognizer: UILongPressGestureRecognizer!
     
@@ -511,7 +511,7 @@ class SliderView: UIView {
     }
 }
 
-protocol SliderViewSizeDelegate {
+internal protocol SliderViewSizeDelegate {
     func sliderViewSizeDidChange(sliderView: UIView)
 }
 
