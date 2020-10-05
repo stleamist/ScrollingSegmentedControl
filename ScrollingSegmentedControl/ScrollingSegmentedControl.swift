@@ -138,7 +138,7 @@ extension ScrollingSegmentedControl {
         segmentBackgroundColors[state] = color
     }
     
-    var segmentCornerRadius: CGFloat = 8 {
+    @IBInspectable var cornerRadius: CGFloat = 8 {
         didSet {
             updateCornerRadius()
         }
@@ -238,14 +238,13 @@ extension ScrollingSegmentedControl {
     }
     
     private func setupSegmentButtons() {
-        // TODO: Don't Repeat Yourself
-        // TODO: cornerRadius 할당이 중복됨.
+        // TODO: cornerRadius 할당이 중복되는 문제 해결하기
         
         foregroundSegments = segmentTitles.map({ title -> SegmentButton in
             let button = SegmentButton()
             button.setTitle(title, for: .normal)
             button.setTitleColor(self.segmentTitleColors[.selected], for: .normal)
-            button.layer.cornerRadius = self.segmentCornerRadius
+            button.layer.cornerRadius = self.cornerRadius
             button.clipsToBounds = true
             return button
         })
@@ -256,7 +255,7 @@ extension ScrollingSegmentedControl {
             button.setTitleColor(self.segmentTitleColors[.normal], for: .normal)
             button.setTitleColor(self.segmentTitleColors[.highlighted], for: .highlighted)
             button.setBackgroundColor(self.segmentBackgroundColors[.highlighted], for: .highlighted)
-            button.layer.cornerRadius = self.segmentCornerRadius
+            button.layer.cornerRadius = self.cornerRadius
             button.clipsToBounds = true
             return button
         })
@@ -316,15 +315,14 @@ extension ScrollingSegmentedControl {
     }
     
     func updateCornerRadius() {
-        self.layer.cornerRadius = segmentCornerRadius
-        sliderView.layer.cornerRadius = segmentCornerRadius
-        sliderMaskView.layer.cornerRadius = segmentCornerRadius
-        backgroundSegments.forEach { $0.layer.cornerRadius = segmentCornerRadius }
-        foregroundSegments.forEach { $0.layer.cornerRadius = segmentCornerRadius }
+        self.layer.cornerRadius = cornerRadius
+        sliderView.layer.cornerRadius = cornerRadius
+        sliderMaskView.layer.cornerRadius = cornerRadius
+        backgroundSegments.forEach { $0.layer.cornerRadius = cornerRadius }
+        foregroundSegments.forEach { $0.layer.cornerRadius = cornerRadius }
     }
     
     func updateScrollViewOffset(animated: Bool) {
-        // FIXME: selectedSegmentIndex > numberOfSegments - 1 일 때 오류 발생
         guard let lastSegment = backgroundSegments.last, let selectedSegment = backgroundSegments[safe: self.selectedSegmentIndex] else {
             // numberOfSegments = 0 or selectedSegmentIndex = -1
             return
