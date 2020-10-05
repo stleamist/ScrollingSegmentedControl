@@ -29,7 +29,7 @@
                                 </connections>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="8YG-OW-Qiy">
-                                <rect key="frame" x="0.0" y="373.5" width="375" height="142.5"/>
+                                <rect key="frame" x="0.0" y="403.5" width="375" height="82.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ewY-m6-QvB">
                                         <rect key="frame" x="162" y="0.0" width="51.5" height="20.5"/>
@@ -54,13 +54,6 @@
                                             <action selector="stepperValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="OlH-KG-H3q"/>
                                         </connections>
                                     </stepper>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MSS-qE-GlY">
-                                        <rect key="frame" x="162" y="112.5" width="51" height="30"/>
-                                        <state key="normal" title="Update"/>
-                                        <connections>
-                                            <action selector="updateDidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7mo-o6-mv2"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>

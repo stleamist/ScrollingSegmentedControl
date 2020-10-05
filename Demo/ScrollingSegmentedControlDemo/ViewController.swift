@@ -28,10 +28,6 @@ class ViewController: UIViewController {
         
         stepperValueLabel.text = "Segments: \(Int(sender.value))"
     }
-    
-    @IBAction func updateDidTap(_ sender: Any) {
-        ()
-    }
 }
 
 
